@@ -30,5 +30,3 @@ p6df::prompt::python::line() {
 
   env_version "py"
 }
-
-p6df::modules::python::init
