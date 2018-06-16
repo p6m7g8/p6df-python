@@ -8,13 +8,15 @@ p6df::modules::python::external::brew() {
 
 p6df::modules::python::init() {
 
-  p6df::modules::python::pyenv::init
+  p6df::modules::python::pyenv::init "$P6_DFZ_SRC_DIR"
 }
 
 p6df::modules::python::pyenv::init() {
+    local dir="$1"
+
     [ -n "$DISABLE_ENVS" ] && return
 
-    PYENV_ROOT=/Users/pgollucci/.local/share/pyenv/pyenv
+    PYENV_ROOT=$dir/pyenv/pyenv
 
     if [ -x $PYENV_ROOT/bin/pyenv ]; then
       export PYENV_ROOT
