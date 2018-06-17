@@ -23,7 +23,7 @@ p6df::modules::python::pyenv::init() {
       export HAS_PYENV=1
       export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
-      p6dfz::util::path_if $PYENV_ROOT/bin
+      p6df::util::path_if $PYENV_ROOT/bin
       eval "$(pyenv init - zsh)"
     fi
 }
