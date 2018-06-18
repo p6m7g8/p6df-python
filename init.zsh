@@ -4,6 +4,12 @@ p6df::modules::python::deps()    {
 }
 
 p6df::modules::python::external::brew() {
+
+}
+
+p6df::modules::python::home::symlink() {
+
+  # XXX: ENV move
 }
 
 p6df::modules::python::init() {
