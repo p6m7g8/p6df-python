@@ -10,9 +10,27 @@ p6df::modules::python::home::symlink() {
   ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
 }
 
+p6df::modules::python::langs() {
+
+  pyenv install 3.7.3
+  pyenv global 3.7.3
+  pip install --upgrade pip
+  pyenv rehash
+  pip install pipenv
+  pip install tox
+}
+
 p6df::modules::python::init() {
 
   p6df::modules::python::pyenv::init "$P6_DFZ_SRC_DIR"
+  p6df::modules::python::pipenv::init
+}
+
+p6df::modules::python::pipenv::init() {
+  
+  [ -n "$DISABLE_ENVS" ] && return
+
+  eval "$(pipenv --completion)"
 }
 
 p6df::modules::python::pyenv::init() {
@@ -29,6 +47,16 @@ p6df::modules::python::pyenv::init() {
 
     p6df::util::path_if $PYENV_ROOT/bin
     eval "$(pyenv init - zsh)"
+  fi
+}    
+
+p6df::prompt::pipenv::line() {
+
+  local env=$(pipenv --venv 2>/dev/null)
+
+  if [ -n "$env" ]; then
+    env=$(basename $env)
+    echo "pipenv: $env"
   fi
 }
 
