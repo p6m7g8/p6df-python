@@ -62,5 +62,5 @@ p6df::prompt::pipenv::line() {
 
 p6df::prompt::python::line() {
 
-  env_version "py"
+  p6_lang_version "py"
 }
