@@ -12,12 +12,16 @@ p6df::modules::python::home::symlink() {
 
 p6df::modules::python::langs() {
 
-  pyenv install 3.7.3
-  pyenv global 3.7.3
+  pyenv install 3.7.4
+  pyenv global 3.7.4
+  pyenv rehash
+
   pip install --upgrade pip
   pyenv rehash
+
   pip install pipenv
   pip install tox
+  pyenv rehash
 }
 
 p6df::modules::python::init() {
