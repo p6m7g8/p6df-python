@@ -16,7 +16,7 @@ p6df::modules::python::langs() {
   pyenv global 3.7.4
   pyenv rehash
 
-  pip install --upgrade pip
+  pip install --upgrade pip wheel
   pyenv rehash
 
   pip install pipenv
