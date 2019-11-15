@@ -34,7 +34,7 @@ p6df::modules::python::pipenv::init() {
   
   [ -n "$DISABLE_ENVS" ] && return
 
-  eval "$(pipenv --completion)"
+#  eval "$(pipenv --completion)"
 }
 
 p6df::modules::python::pyenv::init() {
