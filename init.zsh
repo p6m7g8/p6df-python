@@ -12,8 +12,8 @@ p6df::modules::python::home::symlink() {
 
 p6df::modules::python::langs() {
 
-  pyenv install 3.7.4
-  pyenv global 3.7.4
+  pyenv install 3.8.2
+  pyenv global 3.8.2
   pyenv rehash
 
   pip install --upgrade pip wheel
