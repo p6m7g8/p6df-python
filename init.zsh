@@ -12,8 +12,16 @@ p6df::modules::python::home::symlink() {
 
 p6df::modules::python::langs() {
 
-  pyenv install 3.8.2
-  pyenv global 3.8.2
+  (cd $P6_DFZ_SRC_DIR/pyenv/pyenv ; git pull)
+    
+  # nuke the old one
+  local previous=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -2 | head -1 | sed -e 's, *,,g')
+  pyenv uninstall -f $previous
+
+  # get the shiny one
+  local latest=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -1 | sed -e 's, *,,g')
+  pyenv install $latest
+  pyenv global $latest
   pyenv rehash
 
   pip install --upgrade pip wheel
