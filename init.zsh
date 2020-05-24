@@ -20,7 +20,7 @@ p6df::modules::python::langs() {
 
   # get the shiny one
   local latest=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -1 | sed -e 's, *,,g')
-  pyenv install $latest
+  pyenv install -s $latest
   pyenv global $latest
   pyenv rehash
 
@@ -29,6 +29,7 @@ p6df::modules::python::langs() {
 
   pip install pipenv
   pip install tox
+  pip install yamllint
   pyenv rehash
 }
 
