@@ -65,15 +65,28 @@ p6df::modules::python::pyenv::init() {
 
 p6df::prompt::pipenv::line() {
 
+  p6_pipenv_prompt_info
+}
+
+p6_pipenv_prompt_info() {
+
   local env=$(pipenv --venv 2>/dev/null)
 
+  local str
   if [ -n "$env" ]; then
     env=$(basename $env)
-    echo "pipenv: $env"
+    str="pipenv: $env"
   fi
+
+  p6_return_str "$str"
 }
 
 p6df::prompt::python::line() {
+
+  p6_python_prompt_info
+}
+
+p6_python_prompt_info() {
 
   p6_lang_version "py"
 }
