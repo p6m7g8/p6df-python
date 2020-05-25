@@ -71,14 +71,15 @@ p6df::prompt::pipenv::line() {
 p6_pipenv_prompt_info() {
 
   local env=$(pipenv --venv 2>/dev/null)
-
-  local str
-  if [ -n "$env" ]; then
+  local str=
+  if ! p6_string_blank "$env"; then
     env=$(basename $env)
     str="pipenv: $env"
+    p6_return_str "$str"
+  else
+    p6_return_void
   fi
 
-  p6_return_str "$str"
 }
 
 p6df::prompt::python::line() {
