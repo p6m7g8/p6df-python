@@ -1,3 +1,10 @@
+my_function_to_insert_blank_lines_below_the_match() {
+ local file="$1"
+ local regex="$2"
+
+ cat $file | sed "/$regex/G"
+}
+
 p6df::modules::python::version() { echo "0.0.1" }
 p6df::modules::python::deps()    { ModuleDeps=(pyenv/pyenv) }
 
