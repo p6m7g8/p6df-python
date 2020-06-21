@@ -24,6 +24,7 @@ p6df::modules::python::deps()    { ModuleDeps=(pyenv/pyenv) }
 ######################################################################
 p6df::modules::python::external::brew() {
 
+  brew cask install kite
 }
 
 ######################################################################
@@ -62,9 +63,27 @@ p6df::modules::python::langs() {
   pip install --upgrade pip wheel
   pyenv rehash
 
-  pip install pipenv
-  pip install tox
-  pip install yamllint
+  pip install -q pipenv
+  pip install -q tox
+
+  pip install -q yamllint
+
+  pip install -q nose
+  pip install -q pylint
+  pip install -q prospector
+  pip install -q mypy
+  pip install -q pylama
+  pip install -q pydocstyle
+  pip install -q flake9
+  pip install -q bandit
+  pip install -q pycodestyle
+
+  pip install -q pep8
+  pip install --upgrade autopep8
+  pip install black
+  pip install yapf
+  pip install jedi
+
   pyenv rehash
 }
 
