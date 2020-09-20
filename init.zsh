@@ -169,7 +169,7 @@ p6_pipenv_prompt_info() {
   local str=
   if ! p6_string_blank "$env"; then
     env=$(basename $env)
-    str="pipenv: $env"
+    str="pipenv:   $env"
     p6_return_str "$str"
   else
     p6_return_void
