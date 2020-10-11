@@ -6,6 +6,7 @@
 #>
 ######################################################################
 p6df::modules::python::version() { echo "0.0.1" }
+
 ######################################################################
 #<
 #
@@ -13,7 +14,12 @@ p6df::modules::python::version() { echo "0.0.1" }
 #
 #>
 ######################################################################
-p6df::modules::python::deps()    { ModuleDeps=(pyenv/pyenv) }
+p6df::modules::python::deps() {
+  ModuleDeps=(
+    p6m7g8/p6common
+    pyenv/pyenv
+  )
+}
 
 ######################################################################
 #<
@@ -111,7 +117,7 @@ p6df::modules::python::pipenv::init() {
   
   [ -n "$DISABLE_ENVS" ] && return
 
-#  eval "$(pipenv --completion)"
+  eval "$(p6_run_code pipenv --completion)"
 }
 
 ######################################################################
@@ -137,7 +143,7 @@ p6df::modules::python::pyenv::init() {
     export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
     p6df::util::path_if $PYENV_ROOT/bin
-    eval "$(pyenv init - zsh)"
+    eval "$(p6_run_code pyenv init - zsh)"
   fi
 }    
 
@@ -165,7 +171,7 @@ p6df::prompt::pipenv::line() {
 ######################################################################
 p6_pipenv_prompt_info() {
 
-  local env=$(pipenv --venv 2>/dev/null)
+  local env=$(p6_run_code pipenv --venv 2>/dev/null)
   local str=
   if ! p6_string_blank "$env"; then
     env=$(basename $env)
@@ -174,19 +180,19 @@ p6_pipenv_prompt_info() {
   else
     p6_return_void
   fi
-
 }
 
 ######################################################################
 #<
 #
-# Function: p6df::prompt::python::line()
+# Function: p6df::modules::python::prompt::line()
 #
 #>
 ######################################################################
-p6df::prompt::python::line() {
+p6df::modules::python::prompt::line() {
 
   p6_python_prompt_info
+  p6_pipenv_prompt_info
 }
 
 ######################################################################
@@ -198,5 +204,6 @@ p6df::prompt::python::line() {
 ######################################################################
 p6_python_prompt_info() {
 
+  echo -n "py:\t  "
   p6_lang_version "py"
 }
