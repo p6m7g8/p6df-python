@@ -1,4 +1,3 @@
-
 ######################################################################
 #<
 #
@@ -10,6 +9,7 @@ p6df::modules::python::deps() {
   ModuleDeps=(
     p6m7g8/p6common
     pyenv/pyenv
+    ohmyzsh/ohmyzsh:plugins/pipenv
   )
 }
 
@@ -23,6 +23,7 @@ p6df::modules::python::deps() {
 p6df::modules::python::external::brew() {
 
   brew cask install kite
+  brew install pipenv
 }
 
 ######################################################################
@@ -46,8 +47,11 @@ p6df::modules::python::home::symlink() {
 ######################################################################
 p6df::modules::python::langs() {
 
-  (cd $P6_DFZ_SRC_DIR/pyenv/pyenv ; git pull)
-    
+  (
+    cd $P6_DFZ_SRC_DIR/pyenv/pyenv
+    git pull
+  )
+
   # nuke the old one
   local previous=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -2 | head -1 | sed -e 's, *,,g')
   pyenv uninstall -f $previous
@@ -61,7 +65,6 @@ p6df::modules::python::langs() {
   pip install --upgrade pip wheel
   pyenv rehash
 
-  pip install -q pipenv
   pip install -q tox
 
   pip install -q yamllint
@@ -106,7 +109,7 @@ p6df::modules::python::init() {
 #>
 ######################################################################
 p6df::modules::python::pipenv::init() {
-  
+
   [ -n "$DISABLE_ENVS" ] && return
 
   eval "$(p6_run_code pipenv --completion)"
@@ -118,7 +121,7 @@ p6df::modules::python::pipenv::init() {
 # Function: p6df::modules::python::pyenv::init(dir)
 #
 #  Args:
-#	dir - 
+#	dir -
 #
 #>
 ######################################################################
@@ -137,7 +140,7 @@ p6df::modules::python::pyenv::init() {
     p6df::util::path_if $PYENV_ROOT/bin
     eval "$(p6_run_code pyenv init - zsh)"
   fi
-}    
+}
 
 ######################################################################
 #<
