@@ -166,11 +166,21 @@ p6df::prompt::pipenv::line() {
 ######################################################################
 p6_pipenv_prompt_info() {
 
-  local env=$(p6_run_code pipenv --venv 2>/dev/null)
+  local env
+  env=$(p6_run_code pipenv --venv 2>/dev/null)
   local str=
+
   if ! p6_string_blank "$env"; then
-    env=$(basename $env)
-    str="pipenv:   $env"
+    env=$(p6_uri_name "$env")
+
+    local astr
+    if p6_string_eq "$PIPENV_ACTIVE" "1"; then
+      astr="active"
+    else
+      astr="off"
+    fi
+
+    str="pipenv:   $env ($astr)"
     p6_return_str "$str"
   else
     p6_return_void
