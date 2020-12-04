@@ -22,7 +22,7 @@ p6df::modules::python::deps() {
 ######################################################################
 p6df::modules::python::external::brew() {
 
-  brew cask install kite
+  brew install --cask kite
   brew install pipenv
 }
 
