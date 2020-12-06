@@ -145,11 +145,23 @@ p6df::modules::python::pyenv::init() {
 ######################################################################
 #<
 #
-# Function: p6df::prompt::pipenv::line()
+# Function: p6df::modules::python::pyenv::prompt::line()
 #
 #>
 ######################################################################
-p6df::prompt::pipenv::line() {
+p6df::modules::python::pyenv::prompt::line() {
+
+  p6_echo "pyenv:\t  pyenv_root=$PYENV_ROOT"
+}
+
+######################################################################
+#<
+#
+# Function: p6df::modules::python::pipenv::prompt::line()
+#
+#>
+######################################################################
+p6df::modules::python::pipenv::prompt::line() {
 
   p6_pipenv_prompt_info
 }
