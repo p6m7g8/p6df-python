@@ -38,9 +38,11 @@
 
 - [Change Log](CHANGELOG.md)
 
-### Usage
+## Usage
 
-#### init.zsh:
+### p6df-python:
+
+#### p6df-python/init.zsh:
 
 - p6_python_prompt_info()
 - p6df::modules::python::deps()
