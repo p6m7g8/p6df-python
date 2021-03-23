@@ -24,6 +24,7 @@ p6df::modules::python::external::brew() {
 
   brew install --cask kite
   brew install pipenv
+  brew install watchman
 }
 
 ######################################################################
@@ -84,6 +85,8 @@ p6df::modules::python::langs() {
   pip install black
   pip install yapf
   pip install jedi
+
+  pip install -q pyre-check
 
   pyenv rehash
 }
