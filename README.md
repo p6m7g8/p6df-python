@@ -58,6 +58,7 @@
 - str str = p6_pipenv_prompt_info()
 
 
+
 ## Author
 
 Philip M . Gollucci <pgollucci@p6m7g8.com>
