@@ -55,7 +55,9 @@
 - p6df::modules::python::prompt::line()
 - p6df::modules::python::pyenv::init(dir)
 - p6df::modules::python::pyenv::prompt::line()
+- p6df::modules::python::vscodes()
 - str str = p6_pipenv_prompt_info()
+
 
 
 ## Author

@@ -16,6 +16,22 @@ p6df::modules::python::deps() {
 ######################################################################
 #<
 #
+# Function: p6df::modules::python::vscodes()
+#
+#>
+######################################################################
+p6df::modules::python::vscodes() {
+
+  # python
+  brew install --cask kite
+  code --install-extension ms-python.python
+  code --install-extension FedericoVarela.pipenv-scripts
+  code --install-extension ms-python.vscode-pylance
+}
+
+######################################################################
+#<
+#
 # Function: p6df::modules::python::external::brew()
 #
 #>
@@ -31,6 +47,7 @@ p6df::modules::python::external::brew() {
 #
 # Function: p6df::modules::python::home::symlink()
 #
+#  Environment:	 P6_DFZ_SRC_P6M7G8_DIR
 #>
 ######################################################################
 p6df::modules::python::home::symlink() {
@@ -43,6 +60,7 @@ p6df::modules::python::home::symlink() {
 #
 # Function: p6df::modules::python::langs()
 #
+#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::python::langs() {
@@ -93,6 +111,7 @@ p6df::modules::python::langs() {
 #
 # Function: p6df::modules::python::init()
 #
+#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::python::init() {
@@ -106,6 +125,7 @@ p6df::modules::python::init() {
 #
 # Function: p6df::modules::python::pipenv::init()
 #
+#  Environment:	 DISABLE_ENVS
 #>
 ######################################################################
 p6df::modules::python::pipenv::init() {
@@ -123,6 +143,7 @@ p6df::modules::python::pipenv::init() {
 #  Args:
 #	dir -
 #
+#  Environment:	 DISABLE_ENVS HAS_PYENV PYENV_ROOT PYENV_VIRTUALENV_DISABLE_PROMPT
 #>
 ######################################################################
 p6df::modules::python::pyenv::init() {
@@ -147,6 +168,8 @@ p6df::modules::python::pyenv::init() {
 #
 # Function: p6df::modules::python::pyenv::prompt::line()
 #
+#  Depends:	 p6_echo
+#  Environment:	 PYENV_ROOT
 #>
 ######################################################################
 p6df::modules::python::pyenv::prompt::line() {
@@ -159,6 +182,7 @@ p6df::modules::python::pyenv::prompt::line() {
 #
 # Function: p6df::modules::python::pipenv::prompt::line()
 #
+#  Depends:	 p6_pipenv
 #>
 ######################################################################
 p6df::modules::python::pipenv::prompt::line() {
@@ -174,6 +198,8 @@ p6df::modules::python::pipenv::prompt::line() {
 #  Returns:
 #	str - str
 #
+#  Depends:	 p6_string
+#  Environment:	 PIPENV_ACTIVE
 #>
 ######################################################################
 p6_pipenv_prompt_info() {
@@ -204,6 +230,7 @@ p6_pipenv_prompt_info() {
 #
 # Function: p6df::modules::python::prompt::line()
 #
+#  Depends:	 p6_pipenv
 #>
 ######################################################################
 p6df::modules::python::prompt::line() {
@@ -217,6 +244,7 @@ p6df::modules::python::prompt::line() {
 #
 # Function: p6_python_prompt_info()
 #
+#  Depends:	 p6_lang
 #>
 ######################################################################
 p6_python_prompt_info() {
