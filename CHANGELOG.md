@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/p6m7g8/p6df-python/compare/v2.1.0...v2.1.1) (2021-04-04)
+
+
+* **README:** updates generator ([#23](https://github.com/p6m7g8/p6df-python/issues/23)) ([9f6a7e2](https://github.com/p6m7g8/p6df-python/commit/9f6a7e29458009517d779c473cb601a01c51194c))
+* Coc -> .github ([7f53b6f](https://github.com/p6m7g8/p6df-python/commit/7f53b6fa80331495ec1ef834d50b4eee27ccccae))
+
 ## [2.1.0](https://github.com/p6m7g8/p6df-python/compare/v2.0.0...v2.1.0) (2020-12-06)
 
 
