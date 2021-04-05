@@ -16,6 +16,18 @@ p6df::modules::python::deps() {
 ######################################################################
 #<
 #
+# Function: p6df::modules::python::external::yum()
+#
+#>
+######################################################################
+p6df::modules::python::external::yum() {
+
+  sudo yum install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
+}
+
+######################################################################
+#<
+#
 # Function: p6df::modules::python::external::brew()
 #
 #>
@@ -32,11 +44,13 @@ p6df::modules::python::external::brew() {
 #
 # Function: p6df::modules::python::home::symlink()
 #
+#  Environment:	 P6_DFZ_SRC_P6M7G8_DIR
 #>
 ######################################################################
 p6df::modules::python::home::symlink() {
 
-  ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
+  echo ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
+#  ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
 }
 
 ######################################################################
@@ -44,6 +58,7 @@ p6df::modules::python::home::symlink() {
 #
 # Function: p6df::modules::python::langs()
 #
+#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::python::langs() {
@@ -87,6 +102,7 @@ p6df::modules::python::langs() {
   pip install jedi
 
   pip install -q pyre-check
+  pip install pipenv
 
   pyenv rehash
 }
@@ -96,6 +112,7 @@ p6df::modules::python::langs() {
 #
 # Function: p6df::modules::python::init()
 #
+#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::python::init() {
@@ -109,6 +126,7 @@ p6df::modules::python::init() {
 #
 # Function: p6df::modules::python::pipenv::init()
 #
+#  Environment:	 DISABLE_ENVS
 #>
 ######################################################################
 p6df::modules::python::pipenv::init() {
@@ -126,6 +144,7 @@ p6df::modules::python::pipenv::init() {
 #  Args:
 #	dir -
 #
+#  Environment:	 DISABLE_ENVS HAS_PYENV PYENV_ROOT PYENV_VIRTUALENV_DISABLE_PROMPT
 #>
 ######################################################################
 p6df::modules::python::pyenv::init() {
@@ -150,6 +169,8 @@ p6df::modules::python::pyenv::init() {
 #
 # Function: p6df::modules::python::pyenv::prompt::line()
 #
+#  Depends:	 p6_echo
+#  Environment:	 PYENV_ROOT
 #>
 ######################################################################
 p6df::modules::python::pyenv::prompt::line() {
@@ -162,6 +183,7 @@ p6df::modules::python::pyenv::prompt::line() {
 #
 # Function: p6df::modules::python::pipenv::prompt::line()
 #
+#  Depends:	 p6_pipenv
 #>
 ######################################################################
 p6df::modules::python::pipenv::prompt::line() {
@@ -177,6 +199,8 @@ p6df::modules::python::pipenv::prompt::line() {
 #  Returns:
 #	str - str
 #
+#  Depends:	 p6_string
+#  Environment:	 PIPENV_ACTIVE
 #>
 ######################################################################
 p6_pipenv_prompt_info() {
@@ -207,6 +231,7 @@ p6_pipenv_prompt_info() {
 #
 # Function: p6df::modules::python::prompt::line()
 #
+#  Depends:	 p6_pipenv
 #>
 ######################################################################
 p6df::modules::python::prompt::line() {
@@ -220,6 +245,7 @@ p6df::modules::python::prompt::line() {
 #
 # Function: p6_python_prompt_info()
 #
+#  Depends:	 p6_lang
 #>
 ######################################################################
 p6_python_prompt_info() {
