@@ -47,6 +47,7 @@
 - p6_python_prompt_info()
 - p6df::modules::python::deps()
 - p6df::modules::python::external::brew()
+- p6df::modules::python::external::yum()
 - p6df::modules::python::home::symlink()
 - p6df::modules::python::init()
 - p6df::modules::python::langs()

@@ -13,13 +13,6 @@ p6df::modules::python::deps() {
   )
 }
 
-######################################################################
-#<
-#
-# Function: p6df::modules::python::vscodes()
-#
-#>
-######################################################################
 p6df::modules::python::vscodes() {
 
   # python
@@ -32,6 +25,18 @@ p6df::modules::python::vscodes() {
 ######################################################################
 #<
 #
+# Function: p6df::modules::python::external::yum()
+#
+#>
+######################################################################
+p6df::modules::python::external::yum() {
+
+  sudo yum install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
+}
+
+######################################################################
+#<
+#
 # Function: p6df::modules::python::external::brew()
 #
 #>
@@ -39,7 +44,7 @@ p6df::modules::python::vscodes() {
 p6df::modules::python::external::brew() {
 
   brew install --cask kite
-  brew install pipenv
+  brew install watchman
 }
 
 ######################################################################
@@ -52,6 +57,7 @@ p6df::modules::python::external::brew() {
 ######################################################################
 p6df::modules::python::home::symlink() {
 
+  echo ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
   ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
 }
 
@@ -102,6 +108,9 @@ p6df::modules::python::langs() {
   pip install black
   pip install yapf
   pip install jedi
+
+  pip install -q pyre-check
+  pip install pipenv
 
   pyenv rehash
 }
