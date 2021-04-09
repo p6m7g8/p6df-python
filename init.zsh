@@ -18,6 +18,23 @@ p6df::modules::python::deps() {
 ######################################################################
 #<
 #
+# Function: p6df::modules::python::vscodes()
+#
+#>
+######################################################################
+p6df::modules::python::vscodes() {
+
+  brew install --cask kite
+  code --install-extension ms-python.python
+  code --install-extension FedericoVarela.pipenv-scripts
+  code --install-extension ms-python.vscode-pylance
+
+  p6_return_void
+}
+
+######################################################################
+#<
+#
 # Function: p6df::modules::python::external::yum()
 #
 #>
@@ -39,8 +56,6 @@ p6df::modules::python::external::yum() {
 p6df::modules::python::external::brew() {
 
   brew install watchman
-
-  brew install --cask kite
 
   p6_return_void
 }
@@ -66,7 +81,6 @@ p6df::modules::python::home::symlink() {
 #
 # Function: p6df::modules::python::langs()
 #
-#  Environment:	 P6_DFZ_SRC_DIR
 #>
 ######################################################################
 p6df::modules::python::langs() {
@@ -74,12 +88,18 @@ p6df::modules::python::langs() {
   p6df::modules::python::langs::pull
   p6df::modules::python::langs::nuke
   p6df::modules::python::langs::install
-  p6df::modules::python::langs::pip # XXX: not globally (in $HOME, but per venv in a dir)
-  #  p6df::modules::python::langs::pipenv # XXX: not globally (in $HOME, but per venv in a dir)
+  p6df::modules::python::langs::pip
 
   p6_return_void
 }
 
+######################################################################
+#<
+#
+# Function: p6df::modules::python::langs::install()
+#
+#>
+######################################################################
 p6df::modules::python::langs::install() {
 
   # get the shiny one
@@ -92,6 +112,13 @@ p6df::modules::python::langs::install() {
   p6_return_void
 }
 
+######################################################################
+#<
+#
+# Function: p6df::modules::python::langs::nuke()
+#
+#>
+######################################################################
 p6df::modules::python::langs::nuke() {
 
   # nuke the old one
@@ -102,6 +129,15 @@ p6df::modules::python::langs::nuke() {
   p6_return_void
 }
 
+######################################################################
+#<
+#
+# Function: p6df::modules::python::langs::pull()
+#
+#  Depends:	 p6_git
+#  Environment:	 P6_DFZ_SRC_DIR
+#>
+######################################################################
 p6df::modules::python::langs::pull() {
 
   (
@@ -112,6 +148,13 @@ p6df::modules::python::langs::pull() {
   p6_return_void
 }
 
+######################################################################
+#<
+#
+# Function: p6df::modules::python::lands::eggs()
+#
+#>
+######################################################################
 p6df::modules::python::lands::eggs() {
 
   Eggs=(
@@ -139,6 +182,13 @@ p6df::modules::python::lands::eggs() {
   p6_return_void
 }
 
+######################################################################
+#<
+#
+# Function: p6df::modules::python::langs::pipenv()
+#
+#>
+######################################################################
 p6df::modules::python::langs::pipenv() {
 
   p6df::modules::python::lands::eggs
@@ -151,6 +201,13 @@ p6df::modules::python::langs::pipenv() {
   p6_return_void
 }
 
+######################################################################
+#<
+#
+# Function: p6df::modules::python::langs::pip()
+#
+#>
+######################################################################
 p6df::modules::python::langs::pip() {
 
   p6df::modules::python::lands::eggs
@@ -187,6 +244,7 @@ p6df::modules::python::init() {
 #
 # Function: p6df::modules::python::pipenv::init()
 #
+#  Depends:	 p6_string
 #  Environment:	 DISABLE_ENVS
 #>
 ######################################################################
@@ -205,6 +263,7 @@ p6df::modules::python::pipenv::init() {
 #  Args:
 #	dir -
 #
+#  Depends:	 p6_echo p6_env p6_string
 #  Environment:	 DISABLE_ENVS HAS_PYENV PYENV_ROOT PYENV_VIRTUALENV_DISABLE_PROMPT
 #>
 ######################################################################
@@ -229,9 +288,12 @@ p6df::modules::python::pyenv::init() {
 ######################################################################
 #<
 #
-# Function: p6df::modules::python::pyenv::prompt::line()
+# Function: str str = p6df::modules::python::pyenv::prompt::line()
 #
-#  Depends:	 p6_echo
+#  Returns:
+#	str - str
+#
+#  Depends:	 p6_pipenv
 #  Environment:	 PYENV_ROOT
 #>
 ######################################################################
@@ -247,7 +309,7 @@ p6df::modules::python::pyenv::prompt::line() {
 #
 # Function: p6df::modules::python::pipenv::prompt::line()
 #
-#  Depends:	 p6_pipenv
+#  Depends:	 p6_pipenv p6_string
 #>
 ######################################################################
 p6df::modules::python::pipenv::prompt::line() {
@@ -263,7 +325,7 @@ p6df::modules::python::pipenv::prompt::line() {
 #  Returns:
 #	str - str
 #
-#  Depends:	 p6_string
+#  Depends:	 p6_pipenv p6_string
 #  Environment:	 PIPENV_ACTIVE
 #>
 ######################################################################
@@ -295,7 +357,7 @@ p6_pipenv_prompt_info() {
 #
 # Function: p6df::modules::python::prompt::line()
 #
-#  Depends:	 p6_pipenv
+#  Depends:	 p6_lang p6_pipenv
 #>
 ######################################################################
 p6df::modules::python::prompt::line() {
@@ -307,9 +369,11 @@ p6df::modules::python::prompt::line() {
 ######################################################################
 #<
 #
-# Function: p6_python_prompt_info()
+# Function: str str = p6_python_prompt_info()
 #
-#  Depends:	 p6_lang
+#  Returns:
+#	str - str
+#
 #>
 ######################################################################
 p6_python_prompt_info() {
