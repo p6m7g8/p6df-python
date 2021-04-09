@@ -11,6 +11,8 @@ p6df::modules::python::deps() {
     pyenv/pyenv
     ohmyzsh/ohmyzsh:plugins/pipenv
   )
+
+  p6_return_void
 }
 
 ######################################################################
@@ -23,6 +25,8 @@ p6df::modules::python::deps() {
 p6df::modules::python::external::yum() {
 
   sudo yum install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
+
+  p6_return_void
 }
 
 ######################################################################
@@ -34,9 +38,11 @@ p6df::modules::python::external::yum() {
 ######################################################################
 p6df::modules::python::external::brew() {
 
-  brew install --cask kite
-  brew install pipenv
   brew install watchman
+
+  brew install --cask kite
+
+  p6_return_void
 }
 
 ######################################################################
@@ -50,7 +56,9 @@ p6df::modules::python::external::brew() {
 p6df::modules::python::home::symlink() {
 
   echo ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
-#  ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
+  ln -fs $P6_DFZ_SRC_P6M7G8_DIR/p6df-python/share/.pip .pip
+
+  p6_return_void
 }
 
 ######################################################################
@@ -63,48 +71,99 @@ p6df::modules::python::home::symlink() {
 ######################################################################
 p6df::modules::python::langs() {
 
-  (
-    cd $P6_DFZ_SRC_DIR/pyenv/pyenv
-    git pull
-  )
+  p6df::modules::python::langs::pull
+  p6df::modules::python::langs::nuke
+  p6df::modules::python::langs::install
+  p6df::modules::python::langs::pip # XXX: not globally (in $HOME, but per venv in a dir)
+  #  p6df::modules::python::langs::pipenv # XXX: not globally (in $HOME, but per venv in a dir)
 
-  # nuke the old one
-  local previous=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -2 | head -1 | sed -e 's, *,,g')
-  pyenv uninstall -f $previous
+  p6_return_void
+}
+
+p6df::modules::python::langs::install() {
 
   # get the shiny one
-  local latest=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -1 | sed -e 's, *,,g')
+  local latest
+  latest=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -1 | sed -e 's, *,,g')
   pyenv install -s $latest
   pyenv global $latest
   pyenv rehash
 
-  pip install --upgrade pip wheel
+  p6_return_void
+}
+
+p6df::modules::python::langs::nuke() {
+
+  # nuke the old one
+  local previous
+  previous=$(pyenv install -l | grep '^ *3' | grep -v "[a-z]" | tail -2 | head -1 | sed -e 's, *,,g')
+  pyenv uninstall -f $previous
+
+  p6_return_void
+}
+
+p6df::modules::python::langs::pull() {
+
+  (
+    cd $P6_DFZ_SRC_DIR/pyenv/pyenv
+    p6_git_p6_pull
+  )
+
+  p6_return_void
+}
+
+p6df::modules::python::lands::eggs() {
+
+  Eggs=(
+    "pip"
+    "wheel"
+    "autopep8"
+    "bandit"
+    "black"
+    "flake9"
+    "jedi"
+    "mpyp"
+    "nose"
+    "pep8"
+    "prospector"
+    "pycodestyle"
+    "pydocstyle"
+    "pylama"
+    "pylint"
+    "pyre-check"
+    "tox"
+    "yamllint"
+    "yapf"
+  )
+
+  p6_return_void
+}
+
+p6df::modules::python::langs::pipenv() {
+
+  p6df::modules::python::lands::eggs
+
+  local egg
+  for egg in $Eggs[@]; do
+    pipenv install $egg
+  done
+
+  p6_return_void
+}
+
+p6df::modules::python::langs::pip() {
+
+  p6df::modules::python::lands::eggs
+
+  pip install pip --upgrade
+
+  local egg
+  for egg in $Eggs[@]; do
+    pip install $egg
+  done
   pyenv rehash
 
-  pip install -q tox
-
-  pip install -q yamllint
-
-  pip install -q nose
-  pip install -q pylint
-  pip install -q prospector
-  pip install -q mypy
-  pip install -q pylama
-  pip install -q pydocstyle
-  pip install -q flake9
-  pip install -q bandit
-  pip install -q pycodestyle
-
-  pip install -q pep8
-  pip install --upgrade autopep8
-  pip install black
-  pip install yapf
-  pip install jedi
-
-  pip install -q pyre-check
-  pip install pipenv
-
-  pyenv rehash
+  p6_return_void
 }
 
 ######################################################################
@@ -119,6 +178,8 @@ p6df::modules::python::init() {
 
   p6df::modules::python::pyenv::init "$P6_DFZ_SRC_DIR"
   p6df::modules::python::pipenv::init
+
+  p6_return_void
 }
 
 ######################################################################
@@ -131,9 +192,9 @@ p6df::modules::python::init() {
 ######################################################################
 p6df::modules::python::pipenv::init() {
 
-  [ -n "$DISABLE_ENVS" ] && return
-
-  eval "$(p6_run_code pipenv --completion)"
+  if p6_string_blank "$DISABLE_ENVS"; then
+    eval "$(p6_run_code pipenv --completion)"
+  fi
 }
 
 ######################################################################
@@ -150,18 +211,19 @@ p6df::modules::python::pipenv::init() {
 p6df::modules::python::pyenv::init() {
   local dir="$1"
 
-  [ -n "$DISABLE_ENVS" ] && return
+  if p6_string_blank "$DISABLE_ENVS"; then
+    PYENV_ROOT=$dir/pyenv/pyenv
+    if [ -x $PYENV_ROOT/bin/pyenv ]; then
+      p6_env_export "PYENV_ROOT" "$PYENV_ROOT"
+      p6_env_export "HAS_PYENV" "1"
+      p6_env_export "PYENV_VIRTUALENV_DISABLE_PROMPT" "1"
 
-  PYENV_ROOT=$dir/pyenv/pyenv
-
-  if [ -x $PYENV_ROOT/bin/pyenv ]; then
-    export PYENV_ROOT
-    export HAS_PYENV=1
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-
-    p6df::util::path_if $PYENV_ROOT/bin
-    eval "$(p6_run_code pyenv init - zsh)"
+      p6df::util::path_if $PYENV_ROOT/bin
+      eval "$(p6_run_code pyenv init - zsh)"
+    fi
   fi
+
+  p6_return_void
 }
 
 ######################################################################
@@ -175,7 +237,9 @@ p6df::modules::python::pyenv::init() {
 ######################################################################
 p6df::modules::python::pyenv::prompt::line() {
 
-  p6_echo "pyenv:\t  pyenv_root=$PYENV_ROOT"
+  local str="pyenv:\t  pyenv_root=$PYENV_ROOT"
+
+  p6_return_str "$str"
 }
 
 ######################################################################
@@ -207,8 +271,8 @@ p6_pipenv_prompt_info() {
 
   local env
   env=$(p6_run_code pipenv --venv 2>/dev/null)
-  local str=
 
+  local str
   if ! p6_string_blank "$env"; then
     env=$(p6_uri_name "$env")
 
@@ -250,6 +314,11 @@ p6df::modules::python::prompt::line() {
 ######################################################################
 p6_python_prompt_info() {
 
-  echo -n "py:\t  "
-  p6_lang_version "py"
+  local str
+  local ver
+  ver=$(p6_lang_version "py")
+
+  str="py:\t  $ver"
+
+  p6_return_str "$str"
 }
