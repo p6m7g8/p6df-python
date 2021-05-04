@@ -155,7 +155,7 @@ p6df::modules::python::langs::pull() {
 #
 #>
 ######################################################################
-p6df::modules::python::lands::eggs() {
+p6df::modules::python::langs::eggs() {
 
   Eggs=(
     "pip"
@@ -191,7 +191,9 @@ p6df::modules::python::lands::eggs() {
 ######################################################################
 p6df::modules::python::langs::pipenv() {
 
-  p6df::modules::python::lands::eggs
+  pip install pipenv
+
+  p6df::modules::python::langs::eggs
 
   local egg
   for egg in $Eggs[@]; do
