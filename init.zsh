@@ -151,7 +151,7 @@ p6df::modules::python::langs::pull() {
 ######################################################################
 #<
 #
-# Function: p6df::modules::python::lands::eggs()
+# Function: p6df::modules::python::langs::eggs()
 #
 #>
 ######################################################################
@@ -212,7 +212,7 @@ p6df::modules::python::langs::pipenv() {
 ######################################################################
 p6df::modules::python::langs::pip() {
 
-  p6df::modules::python::lands::eggs
+  p6df::modules::python::langs::eggs
 
   pip install pip --upgrade
 
@@ -280,7 +280,8 @@ p6df::modules::python::pyenv::init() {
       p6_env_export "PYENV_VIRTUALENV_DISABLE_PROMPT" "1"
 
       p6df::util::path_if $PYENV_ROOT/bin
-      eval "$(p6_run_code pyenv init - zsh)"
+      p6df::util::path_if $PYENV_ROOT/shims
+      eval "$(pyenv init -)"
     fi
   fi
 
